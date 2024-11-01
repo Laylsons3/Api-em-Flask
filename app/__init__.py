@@ -6,7 +6,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///crud.db'
 api = Api(app)
 db = SQLAlchemy(app)
-from app.models.products import Products
+# from app.models.products import Products
 from app.models.missions import Missions
 with app.app_context():
   db.create_all()
