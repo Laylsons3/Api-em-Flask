@@ -1,0 +1,51 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ambiente virtual
+venv/
+.env/
+*.env
+
+# Instalação de pacotes distribuídos
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Logs e banco de dados
+*.log
+*.sqlite3
+
+# Arquivos temporários
+*.tmp
+*.bak
+*.swp
+
+# Arquivos de IDEs e editores de texto
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Configurações específicas do sistema
+.DS_Store
+Thumbs.db
+
+# Arquivos de teste
+coverage/
+htmlcov/
+.tox/
+.nox/
+.pytest_cache/
+.cache/
+
+# Documentação
+docs/_build/
+
+# Flask-Specific
+instance/
+*.db
+__pycache__/
