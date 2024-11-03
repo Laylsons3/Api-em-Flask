@@ -5,12 +5,12 @@ class Missions(db.Model):
   __table_args__ = {'sqlite_autoincrement':True}
   id = db.Column(db.Integer, primary_key=True)
   mission_name = db.Column(db.String(255))
-  lancamento = db.Column(db.String(255))
-  destino = db.Column(db.String(255))
-  estado = db.Column(db.String(255))
+  lancamento = db.Column(db.String(20))
+  destino = db.Column(db.String(50))
+  estado = db.Column(db.String(30))
   tripulacao = db.Column(db.String(255))
   carga = db.Column(db.String(255))
-  duracao = db.Column(db.String(255))
+  duracao = db.Column(db.String(50))
   custo = db.Column(db.Float)
   status = db.Column(db.String(255))
 
@@ -36,6 +36,7 @@ class Missions(db.Model):
   def list_mission(self):
     try:
       mission = db.session.query(Missions).all()
+      print("mission", mission)
       mission_dict = [{'id': missions.id, 'mission_name': missions.mission_name, 'lancamento': missions.lancamento, 'destino': missions.destino, 'estado': missions.estado, 'tripulacao': missions.tripulacao, 'carga': missions.carga, 'duracao': missions.duracao, 'custo': missions.custo, 'status': missions.status} for missions in mission]
       return mission_dict
     except Exception as e:
