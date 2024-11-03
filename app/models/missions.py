@@ -1,4 +1,5 @@
 from app import db
+from sqlalchemy import desc
 
 class Missions(db.Model):
   __tablename__ = 'missions'
@@ -33,21 +34,58 @@ class Missions(db.Model):
     except Exception as e:
       print(e)
   
+  from sqlalchemy import desc
+
   def list_mission(self):
-    try:
-      mission = db.session.query(Missions).all()
-      print("mission", mission)
-      mission_dict = [{'id': missions.id, 'mission_name': missions.mission_name, 'lancamento': missions.lancamento, 'destino': missions.destino, 'estado': missions.estado, 'tripulacao': missions.tripulacao, 'carga': missions.carga, 'duracao': missions.duracao, 'custo': missions.custo, 'status': missions.status} for missions in mission]
-      return mission_dict
-    except Exception as e:
-      print(e)
+      try:
+          missions = db.session.query(Missions).order_by(desc(Missions.lancamento)).all()
+          print("missions", missions)
+          
+          mission_dict = [
+              {
+                  'id': mission.id,
+                  'mission_name': mission.mission_name,
+                  'lancamento': mission.lancamento,
+                  'destino': mission.destino,
+                  'estado': mission.estado,
+                  'tripulacao': mission.tripulacao,
+                  'carga': mission.carga,
+                  'duracao': mission.duracao,
+                  'custo': mission.custo,
+                  'status': mission.status
+              }
+              for mission in missions
+          ]
+          return mission_dict
+      except Exception as e:
+          print(e)
+
   
-  def update_mission(self, id, mission_name, lancamento, destino, estado, tripulacao, carga, duracao, custo, status):
-    try:
-      db.session.query(Missions).filter(Missions.id == id).update({"mission_name": mission_name, "lancamento": lancamento, "destino": destino, "estado": estado, "tripulacao": tripulacao, "carga": carga, "duracao": duracao, "custo": custo, "status": status})
-      db.session.commit()
-    except Exception as e:
-      print(e)
+  def update_mission(self, id, mission_name=None, lancamento=None, destino=None, estado=None, tripulacao=None, carga=None, duracao=None, custo=None, status=None):
+      try:
+          fields_to_update = {
+              "mission_name": mission_name,
+              "lancamento": lancamento,
+              "destino": destino,
+              "estado": estado,
+              "tripulacao": tripulacao,
+              "carga": carga,
+              "duracao": duracao,
+              "custo": custo,
+              "status": status
+          }
+          
+          fields_to_update = {key: value for key, value in fields_to_update.items() if value is not None}
+
+          if fields_to_update:
+              db.session.query(Missions).filter(Missions.id == id).update(fields_to_update)
+              db.session.commit()
+          else:
+              print("Nenhum campo para atualizar.")
+
+      except Exception as e:
+          print(f"Erro ao atualizar missão: {e}")
+
   
   def delete_mission(self, id):
     try:

@@ -42,7 +42,8 @@ class MissionUpdate(Resource):
     def put(self):
         try:
             dados = argumentos_update.parse_args()
-            Missions.update_mission(self, dados['id'], dados['mission_name'],
+            Missions.update_mission(self, 
+                                    dados['id'], dados['mission_name'],
                                     dados['lancamento'], dados['destino'], 
                                     dados['estado'], dados['tripulacao'],
                                     dados['carga'], dados['duracao'], 
@@ -66,7 +67,7 @@ class MissionDelete(Resource):
 class MissionList(Resource):
     def get(self):
         try:
-            missao_list = Missions.list_mission()
+            missao_list = Missions.list_mission(self)
             print("missao_list", missao_list)
             return jsonify({"missions": missao_list})
         except Exception as e:
