@@ -68,7 +68,6 @@ class MissionList(Resource):
     def get(self):
         try:
             missao_list = Missions.list_mission(self)
-            print("missao_list", missao_list)
             return jsonify({"missions": missao_list})
         except Exception as e:
             return jsonify({'message': f'Ocorreu um erro ao listar missões: {str(e)}'})

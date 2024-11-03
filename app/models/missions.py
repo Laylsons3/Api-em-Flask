@@ -34,12 +34,9 @@ class Missions(db.Model):
     except Exception as e:
       print(e)
   
-  from sqlalchemy import desc
-
   def list_mission(self):
       try:
           missions = db.session.query(Missions).order_by(desc(Missions.lancamento)).all()
-          print("missions", missions)
           
           mission_dict = [
               {
