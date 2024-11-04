@@ -90,4 +90,3 @@ class Missions(db.Model):
       db.session.commit()
     except Exception as e:
       print(e)
-  
