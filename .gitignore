@@ -46,6 +46,6 @@ htmlcov/
 docs/_build/
 
 # Flask-Specific
-instance/
-*.db
+# instance/
+# *.db
 __pycache__/
