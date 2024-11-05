@@ -1,6 +1,7 @@
 from flask_restful import Resource, reqparse
 from flask import jsonify
 from app.models.missions import Missions
+from datetime import datetime
 
 class Index(Resource):
     def get(self):
@@ -64,11 +65,31 @@ class MissionDelete(Resource):
         except Exception as e:
             return jsonify({'message': f'Ocorreu um erro ao deletar missão: {str(e)}'})
 
+argumentos_list = reqparse.RequestParser()
+argumentos_list.add_argument('data_inicial', type=str)
+argumentos_list.add_argument('data_final', type=str)
+
 class MissionList(Resource):
     def get(self):
         try:
             missao_list = Missions.list_mission(self)
-            return jsonify({"missions": missao_list})
+            args = argumentos_list.parse_args()
+            dados = []
+
+            if args['data_inicial'] and args['data_final']:
+                inicial = datetime.strptime(args['data_inicial'], "%Y-%m-%d")
+                final = datetime.strptime(args['data_final'], "%Y-%m-%d")
+
+                for missao in missao_list:
+                    data_lancamento = datetime.strptime(missao['lancamento'], "%Y-%m-%d")
+
+                    if inicial <= data_lancamento <= final:
+                        dados.append(missao)
+
+                return jsonify({"missions": dados})
+            else:
+                return jsonify({"missions": missao_list})
+
         except Exception as e:
             return jsonify({'message': f'Ocorreu um erro ao listar missões: {str(e)}'})
 
